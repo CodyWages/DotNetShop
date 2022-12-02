@@ -36,12 +36,14 @@ namespace Shop.Application.Cart
             public int StockId { get; set; }
             public int Value { get; set; }
         }
-        public class Request
+
+        public class CustomerInformation
         {
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public string Email { get; set; }
             public string PhoneNumber { get; set; }
+
             public string Address1 { get; set; }
             public string Address2 { get; set; }
             public string City { get; set; }
@@ -56,6 +58,7 @@ namespace Shop.Application.Cart
 
             var listOfProducts = _ctx.Stock
                 .Include(x => x.Product)
+                .AsEnumerable()
                 .Where(x => cartList.Any(y => y.StockId == x.Id))
                 .Select(x => new Product
                 {
