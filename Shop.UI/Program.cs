@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Shop.Database;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["SecretKey"];
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
