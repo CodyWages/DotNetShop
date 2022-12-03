@@ -26,6 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Order.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Pages\Admin\_AdminLayout.cshtml.css" />
   </ItemGroup>
 
@@ -44,6 +48,18 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Order.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Order.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Order.cshtml" />
   </ItemGroup>
 
 </Project>
