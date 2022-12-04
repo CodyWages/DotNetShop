@@ -42,7 +42,6 @@ namespace Shop.Application.Cart
             var cartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObject);
             var response = _ctx.Stock
                 .Include(x => x.Product)
-                .AsEnumerable()
                 .Where(x => cartList.Any(y => y.StockId == x.Id))
                 .Select(x => new Response
                 {
