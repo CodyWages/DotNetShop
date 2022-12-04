@@ -15,7 +15,7 @@ StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["SecretK
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 6;
@@ -24,14 +24,21 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddAuthorization(options =>
+builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
-    options.AddPolicy("Manager", policy => policy.RequireClaim("Manager"));
+    options.LoginPath = "/Accounts/Login";
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
+    options.AddPolicy("Manager", policy => policy.RequireClaim("Role", "Manager"));
+});
 
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Admin");
+});
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -95,8 +102,8 @@ app.UseSession();
 
 app.UseRouting();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
 
