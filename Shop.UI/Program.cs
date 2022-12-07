@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Stripe;
 using System.Security.Claims;
+using Shop.Application.UsersAdmin;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,13 +33,19 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
-    options.AddPolicy("Manager", policy => policy.RequireClaim("Role", "Manager"));
+    // options.AddPolicy("Manager", policy => policy.RequireClaim("Role", "Manager"));
+    options.AddPolicy("Manager", policy => policy
+        .RequireAssertion(context => 
+            context.User.HasClaim("Role", "Manager")
+            || context.User.HasClaim("Role", "Admin")));
 });
 
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Admin");
+    options.Conventions.AuthorizePage("/Admin/ConfigureUsers", "Admin");
 });
+
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -87,6 +94,8 @@ catch (Exception e)
 {
     Console.WriteLine(e.Message);
 }
+
+builder.Services.AddTransient<CreateUser>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
