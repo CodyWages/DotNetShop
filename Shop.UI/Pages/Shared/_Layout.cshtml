@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/bulma/css/bulma.min.css" />
 </head>
+
 <body>
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
@@ -25,7 +26,7 @@
             <div class="navbar-start">
                 @if (User.Identity.IsAuthenticated)
                 {
-                   <a class="navbar-item" asp-page="/Admin/Index"></a>
+                   <a class="navbar-item" asp-page="/Admin/Index">Admin</a>
                 }
             </div>
 
@@ -42,25 +43,15 @@
         </div>
     </nav>
 
-
-
-    <header>
-        <a asp-page="/Admin/Index">Admin</a>
-        
-        
-    </header>
-
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    @await Component.InvokeAsync("Cart")
-
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - Shop.UI
+            <p>2022 - Shop.UI - <a asp-page="/Admin/Index">Admin Login</a></p> 
         </div>
     </footer>
 

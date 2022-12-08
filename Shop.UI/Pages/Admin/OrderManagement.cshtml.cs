@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Shop.UI.Pages.Admin
 {
-    public class Index1Model : PageModel
+    public class OrdersModel : PageModel
     {
         public void OnGet()
         {
