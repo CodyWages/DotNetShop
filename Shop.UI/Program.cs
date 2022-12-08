@@ -57,6 +57,8 @@ builder.Services.AddSession(options =>
     options.Cookie.MaxAge = TimeSpan.FromMinutes(20);
 });
 
+builder.Services.AddApplicationServices();
+
 var app = builder.Build();
 
 try
@@ -95,8 +97,6 @@ catch (Exception e)
 {
     Console.WriteLine(e.Message);
 }
-
-builder.Services.AddApplicationServices();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
