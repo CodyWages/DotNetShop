@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Stripe;
 using System.Security.Claims;
 using Shop.Application.UsersAdmin;
+using Microsoft.Extension.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,7 +96,7 @@ catch (Exception e)
     Console.WriteLine(e.Message);
 }
 
-builder.Services.AddTransient<CreateUser>();
+builder.Services.AddApplicationServices();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
