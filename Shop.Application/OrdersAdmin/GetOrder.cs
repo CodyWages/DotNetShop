@@ -71,7 +71,7 @@ namespace Shop.Application.OrdersAdmin
                         Name = y.Stock.Product.Name,
                         Description = y.Stock.Product.Description,
                         Qty = y.Qty,
-                        StockDescription = y.StockDescription,
+                        // StockDescription = y.StockDescription,
                     }),
                 })
                 .FirstOrDefault();
