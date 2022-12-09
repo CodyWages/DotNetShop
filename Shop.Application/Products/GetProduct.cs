@@ -43,7 +43,7 @@ namespace Shop.Application.Products
                 {
                     Name = x.Name,
                     Description = x.Description,
-                    Value = $"$ {x.Value.ToString("N2")}", // 1000.10 => 1,000.10
+                    Value = $"${x.Value.ToString("N2")}", // 1000.10 => 1,000.10
 
                     Stock = x.Stock.Select(y => new StockViewModel
                     {
