@@ -3,20 +3,27 @@
 @{
 }
 
-<h2>Payment</h2>
 
-<div>
-    <form id="payment-form" method="post">
-        <label for="payment-element">Credit or Debit Card</label>
-        <div id="payment-element">
-            <!--Stripe.js injects the Payment Element-->
+
+<div class="columns">
+    <div class="column is-6">
+        <p class="title">Payment</p>
+        <form id="payment-form" method="post">
+            <div class="field">
+                <div class="form-row">
+                    <div id="payment-element">
+                        <!--Stripe.js injects the Payment Element-->
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="field has-text-right">
+            <button class="button is-success">Pay Now</button>
         </div>
-        <button id="submit">
-            <div class="spinner hidden" id="spinner"></div>
-            <span id="button-text">Pay now</span>
-        <button>
-        <div id="payment-message" class="hidden"></div>
-    </form>
+    </div>
+    <div class="column is-6">
+        <vc:cart view="Default"></vc:cart>
+    </div>
 </div>
 
 @section scripts {
