@@ -1,14 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Shop.Database;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Stripe;
 using System.Security.Claims;
-using Shop.Application.UsersAdmin;
 using Microsoft.Extension.DependencyInjection;
-using Shop.Application.Infrastructure;
 using Shop.UI.Infrastructure;
+using Shop.Application.Cart;
+using Shop.Domain.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,7 +59,8 @@ builder.Services.AddSession(options =>
     options.Cookie.MaxAge = TimeSpan.FromMinutes(20);
 });
 
-builder.Services.AddTransient<ISessionManager, SessionManager>();
+builder.Services.AddTransient<IStockManager, StockManager>();
+builder.Services.AddScoped<ISessionManager, SessionManager>();
 
 builder.Services.AddApplicationServices();
 
@@ -115,14 +114,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapRazorPages();
-
 app.MapDefaultControllerRoute();
-
 app.Run();

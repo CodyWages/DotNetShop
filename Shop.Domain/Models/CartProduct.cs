@@ -1,5 +1,4 @@
-﻿
-namespace Shop.Domain.Models
+﻿namespace Shop.Domain.Models
 {
     public class CartProduct
     {

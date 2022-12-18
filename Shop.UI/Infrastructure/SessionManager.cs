@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Shop.Application.Infrastructure;
+﻿using Newtonsoft.Json;
+using Shop.Domain.Infrastructure;
 using Shop.Domain.Models;
 
 namespace Shop.UI.Infrastructure
@@ -21,7 +20,7 @@ namespace Shop.UI.Infrastructure
             _session.SetString("customer-info", stringObject);
         }
 
-        public void AddProduct(int stockId, int qty)
+        public void AddProduct(CartProduct cartProduct)
         {
             var cartList = new List<CartProduct>();
             var stringObject = _session.GetString("cart");
@@ -31,17 +30,13 @@ namespace Shop.UI.Infrastructure
                 cartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObject);
             }
 
-            if (cartList.Any(x => x.StockId == stockId))
+            if (cartList.Any(x => x.StockId == cartProduct.StockId))
             {
-                cartList.Find(x => x.StockId == stockId).Qty += qty;
+                cartList.Find(x => x.StockId == cartProduct.StockId).Qty += cartProduct.Qty;
             }
             else
             {
-                cartList.Add(new CartProduct
-                {
-                    StockId = stockId,
-                    Qty = qty,
-                });
+                cartList.Add(cartProduct);
             }
 
             stringObject = JsonConvert.SerializeObject(cartList);
@@ -49,16 +44,16 @@ namespace Shop.UI.Infrastructure
             _session.SetString("cart", stringObject);
         }
 
-        public List<CartProduct> GetCart()
+        public IEnumerable<TResult> GetCart<TResult>(Func<CartProduct, TResult> selector)
         {
             var stringObject = _session.GetString("cart");
 
             if (string.IsNullOrEmpty(stringObject))
-                return null;
+                return new List<TResult>();
 
-            var cartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObject);
+            var cartList = JsonConvert.DeserializeObject<IEnumerable<CartProduct>>(stringObject);
 
-            return cartList;
+            return cartList.Select(selector);
         }
 
         public CustomerInformation GetCustomerInformation()
