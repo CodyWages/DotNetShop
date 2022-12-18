@@ -1,26 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using Shop.Domain.Models;
+﻿using Shop.Domain.Models;
 using Shop.Database;
+using Shop.Application.Infrastructure;
 
 namespace Shop.Application.Cart
 {
     public class AddToCart
     {
-        private ISession _session;
+        private ISessionManager _sessionManager;
         private ApplicationDbContext _ctx;
 
-        public AddToCart(ISession session, ApplicationDbContext ctx)
+        public AddToCart(ISessionManager sessionManager, ApplicationDbContext ctx)
         {
-            _session = session;
+            _sessionManager = sessionManager;
             _ctx = ctx;
         }
 
@@ -32,7 +23,7 @@ namespace Shop.Application.Cart
 
         public async Task<bool> Do(Request request)
         {
-            var stockOnHold = _ctx.StocksOnHold.Where(x => x.SessionId == _session.Id).ToList();
+            var stockOnHold = _ctx.StocksOnHold.Where(x => x.SessionId == _sessionManager.GetId()).ToList();
             var stockToHold = _ctx.Stock.Where(x => x.Id == request.StockId).FirstOrDefault();
 
             if (stockToHold.Qty < request.Qty)
@@ -42,14 +33,14 @@ namespace Shop.Application.Cart
 
             if (stockOnHold.Any(x => x.StockId == request.StockId))
             {
-                stockOnHold.Find(x => x.StockId ==request.StockId).Qty += request.Qty;
+                stockOnHold.Find(x => x.StockId == request.StockId).Qty += request.Qty;
             }
             else
             {
                 _ctx.StocksOnHold.Add(new StockOnHold
                 {
                     StockId = stockToHold.Id,
-                    SessionId = _session.Id,
+                    SessionId = _sessionManager.GetId(),
                     Qty = request.Qty,
                     ExpiryDate = DateTime.Now.AddMinutes(20)
                 });
@@ -64,30 +55,7 @@ namespace Shop.Application.Cart
 
             await _ctx.SaveChangesAsync();
 
-            var cartList = new List<CartProduct>();
-            var stringObject = _session.GetString("cart");
-
-            if (!string.IsNullOrEmpty(stringObject))
-            {
-                cartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObject);
-            }
-
-            if (cartList.Any(x => x.StockId == request.StockId))
-            {
-                cartList.Find(x => x.StockId == request.StockId).Qty += request.Qty;
-            }
-            else
-            {
-                cartList.Add(new CartProduct
-                {
-                    StockId = request.StockId,
-                    Qty = request.Qty,
-                });
-            }
-
-            stringObject = JsonConvert.SerializeObject(cartList);
-
-            _session.SetString("cart", stringObject);
+            _sessionManager.AddProduct(request.StockId, request.Qty);
 
             return true;
         }

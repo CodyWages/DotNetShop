@@ -7,8 +7,12 @@ using Stripe;
 using System.Security.Claims;
 using Shop.Application.UsersAdmin;
 using Microsoft.Extension.DependencyInjection;
+using Shop.Application.Infrastructure;
+using Shop.UI.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpContextAccessor();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -56,6 +60,8 @@ builder.Services.AddSession(options =>
     options.Cookie.Name = "Cart";
     options.Cookie.MaxAge = TimeSpan.FromMinutes(20);
 });
+
+builder.Services.AddTransient<ISessionManager, SessionManager>();
 
 builder.Services.AddApplicationServices();
 
