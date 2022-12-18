@@ -24,7 +24,11 @@ namespace Shop.Application.Products
 
             if (stocksOnHold.Count > 0)
             {
-                var stockToReturn = _ctx.Stock.Where(x => stocksOnHold.Any(y => y.StockId == x.Id)).ToList();
+                var stockToReturn = _ctx
+                    .Stock
+                    .AsEnumerable()
+                    .Where(x => stocksOnHold.Any(y => y.StockId == x.Id))
+                    .ToList();
 
                 foreach(var stock in stockToReturn)
                 {
