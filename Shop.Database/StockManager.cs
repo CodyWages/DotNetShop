@@ -1,6 +1,7 @@
 ﻿using Shop.Domain.Models;
 using Shop.Database;
 using Microsoft.EntityFrameworkCore;
+using Shop.Domain.Infrastructure;
 
 namespace Shop.Application.Cart
 {
@@ -63,6 +64,17 @@ namespace Shop.Application.Cart
             }
 
             // commit transaction
+            return _ctx.SaveChangesAsync();
+        }
+
+        public Task RemoveStockFromHold(string sessionId)
+        {
+            var stockOnHold = _ctx.StocksOnHold
+                .Where(x => x.SessionId == sessionId)
+                .ToList();
+
+            _ctx.StocksOnHold.RemoveRange(stockOnHold);
+
             return _ctx.SaveChangesAsync();
         }
 
