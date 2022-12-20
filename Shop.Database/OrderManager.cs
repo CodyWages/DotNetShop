@@ -67,5 +67,12 @@ namespace Shop.Database
 
             return _ctx.SaveChangesAsync();
         }
+
+        public Task AdvanceOrder(int id)
+        {
+            _ctx.Orders.FirstOrDefault(x => x.Id == id).Status++;
+
+            return _ctx.SaveChangesAsync() > 0;
+        }
     }
 }

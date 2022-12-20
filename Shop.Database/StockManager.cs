@@ -95,5 +95,30 @@ namespace Shop.Application.Cart
 
             return _ctx.SaveChangesAsync();
         }
+
+        public Task RetrieveExpiredStockOnHold()
+        {
+            var stocksOnHold = _ctx.StocksOnHold.Where(x => x.ExpiryDate < DateTime.Now).ToList();
+
+            if (stocksOnHold.Count > 0)
+            {
+                var stockToReturn = _ctx
+                    .Stock
+                    .AsEnumerable()
+                    .Where(x => stocksOnHold.Any(y => y.StockId == x.Id))
+                    .ToList();
+
+                foreach (var stock in stockToReturn)
+                {
+                    stock.Qty = stock.Qty + stocksOnHold.FirstOrDefault(x => x.StockId == stock.Id).Qty;
+                }
+
+                _ctx.StocksOnHold.RemoveRange(stocksOnHold);
+
+                return _ctx.SaveChangesAsync();
+            }
+
+            return Task.CompletedTask;
+        }
     }
 }

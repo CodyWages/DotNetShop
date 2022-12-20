@@ -9,5 +9,6 @@ namespace Shop.Domain.Infrastructure
         Task PutStockOnHold(int stockId, int qty, string sessionId);
         Task RemoveStockFromHold(string sessionId);
         Task RemoveStockFromHold(int stockId, int qty, string sessionId);
+        Task RetrieveExpiredStockOnHold();
     }
 }
