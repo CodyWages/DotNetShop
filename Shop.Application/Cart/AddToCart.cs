@@ -1,5 +1,4 @@
 ﻿using Shop.Domain.Models;
-using Shop.Database;
 using Shop.Domain.Infrastructure;
 
 namespace Shop.Application.Cart

@@ -1,31 +1,19 @@
-﻿using Shop.Database;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Shop.Domain.Infrastructure;
 
 namespace Shop.Application.StockAdmin
 {
     public class DeleteStock
     {
-        private ApplicationDbContext _ctx;
+        private IStockManager _stockManager;
 
-        public DeleteStock(ApplicationDbContext ctx)
+        public DeleteStock(IStockManager stockManager)
         {
-            _ctx = ctx;
+            _stockManager = stockManager;
         }
 
-        public async Task<bool> Do(int id)
+        public Task<int> Do(int id)
         {
-            var stock = _ctx.Stock.FirstOrDefault(x => x.Id == id);
-
-            _ctx.Stock.Remove(stock);
-
-            await _ctx.SaveChangesAsync();
-
-            return true;
+            return _stockManager.DeleteStock(id);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Shop.Application.OrdersAdmin
             _orderManager = orderManager;
         }
 
-        public Task DoAsync(int id)
+        public Task<int> DoAsync(int id)
         {
             return _orderManager.AdvanceOrder(id);
         }

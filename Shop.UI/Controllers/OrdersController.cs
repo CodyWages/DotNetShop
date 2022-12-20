@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Application.OrdersAdmin;
-using Shop.Database;
 
 namespace Shop.UI.Controllers
 {
@@ -24,7 +23,17 @@ namespace Shop.UI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(
             int id,
-            [FromServices] UpdateOrder updateOrder) => 
-                Ok(await updateOrder.Do(id));
+            [FromServices] UpdateOrder updateOrder)
+        {
+            var success = await updateOrder.DoAsync(id) > 0;
+            if (success)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

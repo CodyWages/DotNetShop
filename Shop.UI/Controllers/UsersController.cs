@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Application.ProductsAdmin;
-using Shop.Application.StockAdmin;
 using Shop.Application.UsersAdmin;
-using Shop.Database;
 
 namespace Shop.UI.Controllers
 {

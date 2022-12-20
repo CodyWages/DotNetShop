@@ -1,5 +1,4 @@
-﻿using Shop.Database;
-using Shop.Domain.Enums;
+﻿using Shop.Domain.Enums;
 using Shop.Domain.Infrastructure;
 
 namespace Shop.Application.OrdersAdmin

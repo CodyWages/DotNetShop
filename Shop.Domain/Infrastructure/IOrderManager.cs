@@ -12,6 +12,6 @@ namespace Shop.Domain.Infrastructure
         TResult GetOrderByReference<TResult>(string reference, Func<Order, TResult> selector);
 
         Task<int> CreateOrder(Order order);
-        Task AdvanceOrder(int id);
+        Task<int> AdvanceOrder(int id);
     }
 }

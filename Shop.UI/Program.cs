@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using Shop.Database;
 using Microsoft.AspNetCore.Identity;
 using Stripe;
 using System.Security.Claims;
 using Microsoft.Extension.DependencyInjection;
 using Shop.UI.Infrastructure;
-using Shop.Application.Cart;
 using Shop.Domain.Infrastructure;
+using Shop.Database;
+using Shop.Application.Cart;
 
 var builder = WebApplication.CreateBuilder(args);
 

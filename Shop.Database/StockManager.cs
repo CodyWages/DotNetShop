@@ -14,6 +14,28 @@ namespace Shop.Application.Cart
             _ctx = ctx;
         }
 
+        public Task<int> CreateStock(Stock stock)
+        {
+            _ctx.Stock.Add(stock);
+
+            return _ctx.SaveChangesAsync();
+        }
+
+        public Task<int> DeleteStock(int id)
+        {
+            var stock = _ctx.Stock.FirstOrDefault(x => x.Id == id);
+
+            _ctx.Stock.Remove(stock);
+
+            return _ctx.SaveChangesAsync();
+        }
+
+        public Task<int> UpdateStockRange(List<Stock> stockList)
+        {
+            _ctx.Stock.UpdateRange(stockList);
+            return _ctx.SaveChangesAsync();
+        }
+
         public bool EnoughStock(int stockId, int qty)
         {
             return _ctx.Stock.FirstOrDefault(x => x.Id == stockId).Qty >= qty;

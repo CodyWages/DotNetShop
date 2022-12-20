@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Shop.Application.UsersAdmin;
+﻿using Shop.Application.UsersAdmin;
 using Shop.Application.OrdersAdmin;
 using Shop.Application.Cart;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Extension.DependencyInjection
 {

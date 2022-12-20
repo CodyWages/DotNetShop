@@ -1,23 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shop.Application.Products;
-using Shop.Database;
 
 namespace Shop.UI.Pages
 {
     public class IndexModel : PageModel
     {
-        private ApplicationDbContext _ctx;
-        public IndexModel(ApplicationDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-
         public IEnumerable<GetProducts.ProductViewModel> Products { get; set; }
 
-        public void OnGet()
+        public void OnGet([FromServices] GetProducts getProducts)
         {
-            Products = new GetProducts(_ctx).Do();
+            Products = getProducts.Do();
         }
     }
 }

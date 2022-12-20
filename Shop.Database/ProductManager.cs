@@ -55,7 +55,7 @@ namespace Shop.Database
                 .FirstOrDefault();
         }
 
-        public IEnumerable<TResult> GetProducts<TResult>(
+        public IEnumerable<TResult> GetProductsWithStock<TResult>(
             Func<Product, TResult> selector)
         {
             return _ctx.Products
