@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shop.Application.Cart;
 using Shop.Application.Orders;
+using Shop.Domain.Infrastructure;
 using Stripe;
 using GetOrderCart = Shop.Application.Cart.GetOrder;
 
@@ -34,7 +35,8 @@ namespace Shop.UI.Pages.Checkout
             string stripeEmail, 
             string stripeToken,
             [FromServices] GetOrderCart getOrder,
-            [FromServices] CreateOrder createOrder)
+            [FromServices] CreateOrder createOrder,
+            [FromServices] ISessionManager sessionManager)
         {
             var customers = new CustomerService();
             var charges = new ChargeService();
@@ -77,6 +79,8 @@ namespace Shop.UI.Pages.Checkout
                     Qty = x.Qty,
                 }).ToList()
             });
+
+            sessionManager.ClearCart();
 
             return RedirectToPage("/Index");
         }

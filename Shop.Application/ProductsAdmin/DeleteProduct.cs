@@ -2,6 +2,7 @@
 
 namespace Shop.Application.ProductsAdmin
 {
+    [Service]
     public class DeleteProduct
     {
         private IProductManager _productManager;

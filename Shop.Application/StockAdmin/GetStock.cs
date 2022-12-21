@@ -2,6 +2,7 @@
 
 namespace Shop.Application.StockAdmin
 {
+    [Service]
     public class GetStock
     {
         private IProductManager _productManager;

@@ -59,9 +59,6 @@ builder.Services.AddSession(options =>
     options.Cookie.MaxAge = TimeSpan.FromMinutes(20);
 });
 
-builder.Services.AddTransient<IStockManager, StockManager>();
-builder.Services.AddScoped<ISessionManager, SessionManager>();
-
 builder.Services.AddApplicationServices();
 
 var app = builder.Build();

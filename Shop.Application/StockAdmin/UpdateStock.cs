@@ -3,6 +3,7 @@ using Shop.Domain.Models;
 
 namespace Shop.Application.StockAdmin
 {
+    [Service]
     public class UpdateStock
     {
         private IStockManager _stockManager;

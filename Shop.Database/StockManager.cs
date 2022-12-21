@@ -1,9 +1,8 @@
 ﻿using Shop.Domain.Models;
-using Shop.Database;
 using Microsoft.EntityFrameworkCore;
 using Shop.Domain.Infrastructure;
 
-namespace Shop.Application.Cart
+namespace Shop.Database
 {
     public class StockManager : IStockManager
     {

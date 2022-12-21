@@ -4,6 +4,7 @@ using Shop.Domain.Models;
 
 namespace Shop.Application.Orders
 {
+    [Service]
     public class CreateOrder
     {
         private IOrderManager _orderManager;
